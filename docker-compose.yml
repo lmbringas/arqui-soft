@@ -11,7 +11,8 @@ services:
   tomcat:
     build: .
     volumes:
-      - ./target:/usr/local/tomcat/webapps/
+      - ./target/test.war:/usr/local/tomcat/webapps/ROOT.war
+      - ./target/test:/usr/local/tomcat/webapps/ROOT
     depends_on:
       - db
     ports:
