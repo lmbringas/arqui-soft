@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+
+  db:
+    image: mysql
+    environment:
+    - MYSQL_ROOT_PASSWORD=admin
+    - MYSQL_DATABASE=arqsoft
+
+  tomcat:
+    build: .
+    volumes:
+      - ./target:/usr/local/tomcat/webapps/
+    depends_on:
+      - db
+    ports:
+      - "8000:8080"

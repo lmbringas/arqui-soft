@@ -11,9 +11,9 @@
 		<property name="driverClass" value="com.mysql.cj.jdbc.Driver" />
 		
 		<!-- CHANGE THE DATABASE CONNECTION-->
-		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/ARQSOFT_2019?useSSL=false"/>		
+		<property name="jdbcUrl" value="jdbc:mysql://db:3306/arqsoft?useSSL=false&amp;allowPublicKeyRetrieval=TRUE"/>		
 		<property name="user" value="root" />
-		<property name="password" value="root" />
+		<property name="password" value="admin" />
 		
 		<!-- ***************************************** -->
 		
@@ -46,6 +46,7 @@
 				<prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</prop>
 				
 				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">validate</prop>
 			</props>
 		</property>
 	</bean>
