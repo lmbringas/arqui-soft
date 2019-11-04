@@ -11,7 +11,7 @@ public class TransactionDto {
 
     private Date date;
 
-    private double amount;
+    private Double amount;
     
     private Operation operation;
 
@@ -66,30 +66,5 @@ public class TransactionDto {
 
     public void setCard(Card card) {
         this.card = card;
-    }
-
-    public TransactionDto id(Long id) {
-        this.id = id;
-        return this;
-    }
-
-    public TransactionDto date(Date date) {
-        this.date = date;
-        return this;
-    }
-
-    public TransactionDto amount(double amount) {
-        this.amount = amount;
-        return this;
-    }
-
-    public TransactionDto operation(Operation operation) {
-        this.operation = operation;
-        return this;
-    }
-
-    public TransactionDto card(Card card) {
-        this.card = card;
-        return this;
     }
 }
