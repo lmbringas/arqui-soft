@@ -1,22 +1,28 @@
 package ar.edu.ucc.arqsoft.test.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "User")
 public class User extends ObjetoGenerico {
 
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "dni")
     private String dni;
-
+    
+    @OneToMany(mappedBy = "user")
+    private Set<Card> cards = new HashSet<Card>();
 
     public String getFirstName() {
         return this.firstName;
@@ -42,5 +48,12 @@ public class User extends ObjetoGenerico {
         this.dni = dni;
     }
 
+	public Set<Card> getCards() {
+		return cards;
+	}
+
+	public void setCards(Set<Card> cards) {
+		this.cards = cards;
+	}
 
 }
