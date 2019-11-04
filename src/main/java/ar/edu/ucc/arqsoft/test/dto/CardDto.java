@@ -16,7 +16,7 @@ public class CardDto {
     private double balance;
 
     private Set<Transaction> transactions;
-    
+
 
     public CardDto() {}
 
@@ -26,6 +26,25 @@ public class CardDto {
         this.user = user;
         this.balance = balance;
     }
+
+
+    public CardDto(Long id, String number, User user, double balance, Set<Transaction> transactions) {
+        this.id = id;
+        this.number = number;
+        this.user = user;
+        this.balance = balance;
+        this.transactions = transactions;
+    }
+
+
+    public Set<Transaction> getTransactions() {
+        return this.transactions;
+    }
+
+    public void setTransactions(Set<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
 
     public Long getId() {
         return this.id;
