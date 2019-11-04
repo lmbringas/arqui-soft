@@ -2,6 +2,7 @@ package ar.edu.ucc.arqsoft.test.dto;
 
 import java.util.Date;
 
+import ar.edu.ucc.arqsoft.test.model.Card;
 import ar.edu.ucc.arqsoft.test.model.Operation;
 
 public class TransactionDto {

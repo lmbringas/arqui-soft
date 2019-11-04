@@ -1,5 +1,8 @@
 package ar.edu.ucc.arqsoft.test.dto;
 
+import java.util.Set;
+
+import ar.edu.ucc.arqsoft.test.model.Transaction;
 import ar.edu.ucc.arqsoft.test.model.User;
 
 public class CardDto {
@@ -11,6 +14,9 @@ public class CardDto {
     private User user;
 
     private double balance;
+
+    private Set<Transaction> transactions;
+    
 
     public CardDto() {}
 
