@@ -1,5 +1,7 @@
 package ar.edu.ucc.arqsoft.test.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,4 +65,14 @@ public class CardController {
 		return new ResponseEntity(dto, HttpStatus.CREATED);
     }
 
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/transactions/{cardId}", 
+	method = RequestMethod.POST, produces = "application/json")
+	public ResponseEntity<?> updateDebit(@PathVariable("cardId") Long id) throws Exception {
+
+		List<TransactionDto> dto = cardService.getAllTransaction(id);
+		
+		return new ResponseEntity(dto, HttpStatus.CREATED);
+    }
 }

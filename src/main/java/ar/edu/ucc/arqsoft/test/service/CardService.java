@@ -1,6 +1,9 @@
 package ar.edu.ucc.arqsoft.test.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,4 +112,23 @@ public class CardService {
 		}
 	}
 	
+	public List<TransactionDto> getAllTransaction(Long id){
+		Card card = cardDao.load(id);
+
+		Set<Transaction> t;
+		t = card.getTransactions();
+		
+		List<TransactionDto> transactions = new ArrayList<TransactionDto>();
+		
+		for (Transaction transaction : t){
+			transactions.add(new TransactionDto(transaction.getId(), 
+									transaction.getDate(),
+									transaction.getAmount(),
+									transaction.getOperation(),
+									transaction.getCard()
+									  ));
+		}
+		
+		return transactions;
+	}
 }
