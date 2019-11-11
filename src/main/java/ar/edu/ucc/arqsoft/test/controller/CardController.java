@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ar.edu.ucc.arqsoft.test.dto.AmountDto;
 import ar.edu.ucc.arqsoft.test.dto.CardDto;
+import ar.edu.ucc.arqsoft.test.dto.TransactionDto;
+import ar.edu.ucc.arqsoft.test.service.CardService;
 
 
 @Controller
@@ -31,9 +34,9 @@ public class CardController {
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/card/{cardId}/credit", 
 	method = RequestMethod.POST, produces = "application/json")
-	public ResponseEntity<?> updateCredit(@PathVariable("cardId") Long id) throws Exception {
+	public ResponseEntity<?> updateCredit(@PathVariable("cardId") Long id, @RequestBody AmountDto amount) throws Exception {
 
-		cardService.saveCard(dto);
+		TransactionDto dto = cardService.creditAmount(id, amount.getAmount());
 		
 		return new ResponseEntity(dto, HttpStatus.CREATED);
     }
@@ -42,9 +45,9 @@ public class CardController {
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/card/{cardId}/debit", 
 	method = RequestMethod.POST, produces = "application/json")
-	public ResponseEntity<?> updateDebit(@PathVariable("cardId") Long id) throws Exception {
+	public ResponseEntity<?> updateDebit(@PathVariable("cardId") Long id, @RequestBody AmountDto amount) throws Exception {
 
-		cardService.saveCard(dto);
+		TransactionDto dto = cardService.debitAmount(id, amount.getAmount());
 		
 		return new ResponseEntity(dto, HttpStatus.CREATED);
     }
