@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -23,7 +24,7 @@ public class Transaction extends ObjetoGenerico {
 	@Enumerated(EnumType.ORDINAL)
 	private Operation operation;
 	
-	@ManyToOne(targetEntity = Card.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Card.class)
 	@JoinColumn(name = "Card_ID", nullable = false)
 	private Card card;
 

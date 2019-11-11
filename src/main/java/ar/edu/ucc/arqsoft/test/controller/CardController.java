@@ -15,6 +15,7 @@ import ar.edu.ucc.arqsoft.test.dto.AmountDto;
 import ar.edu.ucc.arqsoft.test.dto.AuthRequestDto;
 import ar.edu.ucc.arqsoft.test.dto.AuthResponseDto;
 import ar.edu.ucc.arqsoft.test.dto.CardDto;
+import ar.edu.ucc.arqsoft.test.dto.CardTransactionDto;
 import ar.edu.ucc.arqsoft.test.dto.TransactionDto;
 import ar.edu.ucc.arqsoft.test.service.CardService;
 
@@ -72,7 +73,8 @@ public class CardController {
 	method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<?> updateDebit(@PathVariable("cardId") Long id) throws Exception {
 
-		List<TransactionDto> dto = cardService.getAllTransaction(id);
+		List<CardTransactionDto> dto = cardService.getAllTransaction(id);
+		
 		
 		return new ResponseEntity(dto, HttpStatus.OK);
     }

@@ -16,6 +16,7 @@ import ar.edu.ucc.arqsoft.test.dto.AuthRequestDto;
 import ar.edu.ucc.arqsoft.test.dto.AuthResponseDto;
 import ar.edu.ucc.arqsoft.test.dto.CardAuthDto;
 import ar.edu.ucc.arqsoft.test.dto.CardDto;
+import ar.edu.ucc.arqsoft.test.dto.CardTransactionDto;
 import ar.edu.ucc.arqsoft.test.dto.TransactionDto;
 import ar.edu.ucc.arqsoft.test.model.Card;
 import ar.edu.ucc.arqsoft.test.model.Operation;
@@ -115,20 +116,19 @@ public class CardService {
 		}
 	}
 	
-	public List<TransactionDto> getAllTransaction(Long id){
+	public List<CardTransactionDto> getAllTransaction(Long id){
 		Card card = cardDao.load(id);
 
 		Set<Transaction> t;
 		t = card.getTransactions();
 		
-		List<TransactionDto> transactions = new ArrayList<TransactionDto>();
+		List<CardTransactionDto> transactions = new ArrayList<CardTransactionDto>();
 		
 		for (Transaction transaction : t){
-			transactions.add(new TransactionDto(transaction.getId(), 
+			transactions.add(new CardTransactionDto(transaction.getId(), 
 									transaction.getDate(),
 									transaction.getAmount(),
-									transaction.getOperation(),
-									transaction.getCard()
+									transaction.getOperation()
 									  ));
 		}
 		
