@@ -38,16 +38,27 @@ public class CardService {
 	}
 	
 	
-	private TransactionDto updateBalance(Long id, Double amount, Operation operation) throws Exception {
+	public AuthResponseDto authCard(AuthRequestDto dto) {
 		final String authUri = "https://iua-service.herokuapp.com/autorizar";
-		
-		Card card = cardDao.load(id);
-		
+
 		CardAuthDto authCard = new CardAuthDto();
-		authCard.setNumber(card.getId().toString());
+		authCard.setNumber(dto.getCard().getNumber());
+		
 		AuthRequestDto authRequest = new AuthRequestDto();
 		authRequest.setCard(authCard);
-		authRequest.setAmount(amount);
+		authRequest.setAmount(dto.getAmount());
+		
+		RestTemplate restTemplate = new RestTemplate();
+		AuthResponseDto responseDto = 
+		    		restTemplate.postForObject(authUri, authRequest, AuthResponseDto.class);
+		 
+		return responseDto;
+	}
+	
+	
+	private TransactionDto updateBalance(Long id, Double amount, Operation operation) throws Exception {
+		
+		Card card = cardDao.load(id);
 		
 		Transaction transaction = new Transaction();
 		transaction.setDate(Calendar.getInstance().getTime());
@@ -57,13 +68,6 @@ public class CardService {
 		
 		if (card.getBalance() <= 0 && operation == Operation.DEBIT)
 			throw new Exception("Operation not permitted");
-		
-		 RestTemplate restTemplate = new RestTemplate();
-		 AuthResponseDto response = 
-		    		restTemplate.postForObject(authUri, authRequest, AuthResponseDto.class);
-		 
-		 if (response.getStatus() == "RECHAZADA")
-			 throw new Exception("Operation not permitted");
 		
 		Double operationAmount = operation == Operation.CREDIT
 			? amount

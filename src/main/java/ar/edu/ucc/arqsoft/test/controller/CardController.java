@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ar.edu.ucc.arqsoft.test.dto.AmountDto;
+import ar.edu.ucc.arqsoft.test.dto.AuthRequestDto;
 import ar.edu.ucc.arqsoft.test.dto.CardDto;
 import ar.edu.ucc.arqsoft.test.dto.TransactionDto;
 import ar.edu.ucc.arqsoft.test.service.CardService;
@@ -29,6 +30,16 @@ public class CardController {
 		cardService.saveCard(dto);
 		
 		return new ResponseEntity(dto, HttpStatus.CREATED);
+    }
+    
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/card/auth", 
+	method = RequestMethod.POST, produces = "application/json")
+	public ResponseEntity<?> createCard(@RequestBody AuthRequestDto dto) throws Exception {
+
+		cardService.authCard(dto);
+		
+		return new ResponseEntity(dto, HttpStatus.OK);
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
