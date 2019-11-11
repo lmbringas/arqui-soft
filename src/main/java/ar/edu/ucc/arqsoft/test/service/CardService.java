@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -20,6 +22,7 @@ import ar.edu.ucc.arqsoft.test.model.Operation;
 import ar.edu.ucc.arqsoft.test.model.Transaction;
 
 @Service
+@Transactional
 public class CardService {
 	
 	@Autowired
@@ -79,7 +82,7 @@ public class CardService {
 		card.setBalance(card.getBalance() + operationAmount);
 		
 		transactionDao.saveOrUpdate(transaction);
-		cardDao.saveOrUpdate(card);
+		cardDao.update(card);
 		
 		TransactionDto transactionDto = new TransactionDto(
 			transaction.getId(),

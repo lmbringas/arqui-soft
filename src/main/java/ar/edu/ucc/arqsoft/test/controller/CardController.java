@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import ar.edu.ucc.arqsoft.test.dto.AmountDto;
 import ar.edu.ucc.arqsoft.test.dto.AuthRequestDto;
+import ar.edu.ucc.arqsoft.test.dto.AuthResponseDto;
 import ar.edu.ucc.arqsoft.test.dto.CardDto;
 import ar.edu.ucc.arqsoft.test.dto.TransactionDto;
 import ar.edu.ucc.arqsoft.test.service.CardService;
@@ -39,9 +40,9 @@ public class CardController {
 	method = RequestMethod.POST, produces = "application/json")
 	public ResponseEntity<?> createCard(@RequestBody AuthRequestDto dto) throws Exception {
 
-		cardService.authCard(dto);
+		AuthResponseDto response =  cardService.authCard(dto);
 		
-		return new ResponseEntity(dto, HttpStatus.OK);
+		return new ResponseEntity(response, HttpStatus.CREATED);
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -51,7 +52,7 @@ public class CardController {
 
 		TransactionDto dto = cardService.creditAmount(id, amount.getAmount());
 		
-		return new ResponseEntity(dto, HttpStatus.CREATED);
+		return new ResponseEntity(HttpStatus.CREATED);
     }
 
 
@@ -62,17 +63,17 @@ public class CardController {
 
 		TransactionDto dto = cardService.debitAmount(id, amount.getAmount());
 		
-		return new ResponseEntity(dto, HttpStatus.CREATED);
+		return new ResponseEntity(HttpStatus.CREATED);
     }
 
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/transactions/{cardId}", 
-	method = RequestMethod.POST, produces = "application/json")
+	method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<?> updateDebit(@PathVariable("cardId") Long id) throws Exception {
 
 		List<TransactionDto> dto = cardService.getAllTransaction(id);
 		
-		return new ResponseEntity(dto, HttpStatus.CREATED);
+		return new ResponseEntity(dto, HttpStatus.OK);
     }
 }

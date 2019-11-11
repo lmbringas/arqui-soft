@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -24,7 +25,7 @@ public class Card extends ObjetoGenerico {
 	@JoinColumn(name = "User_ID", nullable = false)
 	private User user;
 	
-	@OneToMany(mappedBy = "card")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "card")
 	private Set<Transaction> transactions = new HashSet<Transaction>();
 
 	public String getNumber() {
