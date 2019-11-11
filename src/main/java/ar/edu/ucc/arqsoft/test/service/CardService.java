@@ -4,8 +4,12 @@ import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import ar.edu.ucc.arqsoft.test.dao.DaoGenerico;
+import ar.edu.ucc.arqsoft.test.dto.AuthRequestDto;
+import ar.edu.ucc.arqsoft.test.dto.AuthResponseDto;
+import ar.edu.ucc.arqsoft.test.dto.CardAuthDto;
 import ar.edu.ucc.arqsoft.test.dto.CardDto;
 import ar.edu.ucc.arqsoft.test.dto.TransactionDto;
 import ar.edu.ucc.arqsoft.test.model.Card;
@@ -35,7 +39,15 @@ public class CardService {
 	
 	
 	private TransactionDto updateBalance(Long id, Double amount, Operation operation) throws Exception {
+		final String authUri = "https://iua-service.herokuapp.com/autorizar";
+		
 		Card card = cardDao.load(id);
+		
+		CardAuthDto authCard = new CardAuthDto();
+		authCard.setNumber(card.getId().toString());
+		AuthRequestDto authRequest = new AuthRequestDto();
+		authRequest.setCard(authCard);
+		authRequest.setAmount(amount);
 		
 		Transaction transaction = new Transaction();
 		transaction.setDate(Calendar.getInstance().getTime());
@@ -45,6 +57,13 @@ public class CardService {
 		
 		if (card.getBalance() <= 0 && operation == Operation.DEBIT)
 			throw new Exception("Operation not permitted");
+		
+		 RestTemplate restTemplate = new RestTemplate();
+		 AuthResponseDto response = 
+		    		restTemplate.postForObject(authUri, authRequest, AuthResponseDto.class);
+		 
+		 if (response.getStatus() == "RECHAZADA")
+			 throw new Exception("Operation not permitted");
 		
 		Double operationAmount = operation == Operation.CREDIT
 			? amount
