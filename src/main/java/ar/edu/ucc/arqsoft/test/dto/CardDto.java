@@ -13,14 +13,14 @@ public class CardDto {
 
     private User user;
 
-    private double balance;
+    private Double balance;
 
     private Set<Transaction> transactions;
 
 
     public CardDto() {}
 
-    public CardDto(Long id, String number, User user, double balance) {
+    public CardDto(Long id, String number, User user, Double balance) {
         this.id = id;
         this.number = number;
         this.user = user;
@@ -28,7 +28,7 @@ public class CardDto {
     }
 
 
-    public CardDto(Long id, String number, User user, double balance, Set<Transaction> transactions) {
+    public CardDto(Long id, String number, User user, Double balance, Set<Transaction> transactions) {
         this.id = id;
         this.number = number;
         this.user = user;
@@ -74,28 +74,8 @@ public class CardDto {
         return this.balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
-    }
-
-    public CardDto id(Long id) {
-        this.id = id;
-        return this;
-    }
-
-    public CardDto number(String number) {
-        this.number = number;
-        return this;
-    }
-
-    public CardDto user(User user) {
-        this.user = user;
-        return this;
-    }
-
-    public CardDto balance(double balance) {
-        this.balance = balance;
-        return this;
     }
 
 }

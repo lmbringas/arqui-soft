@@ -1,5 +1,7 @@
 package ar.edu.ucc.arqsoft.test.service;
 
+import java.util.Calendar;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,19 +34,56 @@ public class CardService {
 	}
 	
 	
-	public void updateBalance(TransactionDto dto) {
-		Card card = dto.getCard();
+	private TransactionDto updateBalance(Long id, Double amount, Operation operation) throws Exception {
+		Card card = cardDao.load(id);
 		
-		Operation operation = dto.getOperation();
+		Transaction transaction = new Transaction();
+		transaction.setDate(Calendar.getInstance().getTime());
+		transaction.setAmount(amount);
+		transaction.setOperation(operation);
+		transaction.setCard(card);
 		
-		if (card.getBalance() <= 0 && operation == Operation.CREDIT)
-			return;
+		if (card.getBalance() <= 0 && operation == Operation.DEBIT)
+			throw new Exception("Operation not permitted");
 		
-		Double amount = operation == Operation.CREDIT 
-			? dto.getAmount()
-			: -dto.getAmount();
+		Double operationAmount = operation == Operation.CREDIT
+			? amount
+			: -amount;
 		
-		card.setBalance(card.getBalance() + amount);
+		card.setBalance(card.getBalance() + operationAmount);
+		
+		transactionDao.saveOrUpdate(transaction);
+		cardDao.saveOrUpdate(card);
+		
+		TransactionDto transactionDto = new TransactionDto(
+			transaction.getId(),
+			transaction.getDate(), 
+			transaction.getAmount(), 
+			transaction.getOperation(), 
+			transaction.getCard()
+		); 
+		
+		return transactionDto;
+	}
+	
+	public TransactionDto creditAmount(Long id, Double amount) throws Exception {
+		try {			
+			TransactionDto transactionDto = updateBalance(id, amount, Operation.CREDIT);
+			return transactionDto;
+		} catch (Exception e) {
+			// Exception handling...
+			throw e;
+		}
+	}
+	
+	public TransactionDto debitAmount(Long id, Double amount) throws Exception {
+		try {			
+			TransactionDto transactionDto = updateBalance(id, amount, Operation.DEBIT);
+			return transactionDto;
+		} catch (Exception e) {
+			// Exception handling...
+			throw e;
+		}
 	}
 	
 }
